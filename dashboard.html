@@ -11,39 +11,194 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --success: #48bb78;
+            --danger: #f56565;
+            --bg-light: #f7fafc;
+            --bg-dark: #1a202c;
+            --text-light: #2d3748;
+            --text-dark: #e2e8f0;
+            --border-light: #e2e8f0;
+            --border-dark: #4a5568;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: var(--text-dark);
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
             color: white;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.5em;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            font-weight: 800;
+            letter-spacing: -1px;
         }
 
         header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+            font-size: 1.05em;
+            opacity: 0.95;
+            font-weight: 500;
         }
 
-        .tabs {
+        .theme-toggle {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(20deg);
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.5), transparent);
+        }
+
+        .stat-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+        }
+
+        .stat-card.trending {
+            border: 2px solid rgba(72, 187, 120, 0.5);
+            background: rgba(72, 187, 120, 0.1);
+        }
+
+        .stat-card.highlight {
+            border: 2px solid rgba(255, 193, 7, 0.5);
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            opacity: 0.92;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .search-container {
+            margin-bottom: 28px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05em;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .filter-chip:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        .filter-chip.active {
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .mega-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -51,25 +206,42 @@
         .tab-button {
             padding: 12px 24px;
             border: none;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
             color: white;
             cursor: pointer;
-            border-radius: 25px;
+            border-radius: 10px;
             font-size: 1em;
             font-weight: 600;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: left 0.3s ease;
+            z-index: -1;
         }
 
         .tab-button:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.25);
             transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.4);
         }
 
         .tab-button.active {
             background: white;
             color: #667eea;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            font-weight: 700;
         }
 
         .tab-content {
@@ -78,25 +250,37 @@
 
         .tab-content.active {
             display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
             margin-bottom: 30px;
         }
 
         .card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            border: 2px solid transparent;
+            border: 1px solid #e2e8f0;
         }
 
         .card::before {
@@ -105,98 +289,99 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 5px;
             background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 48px rgba(102, 126, 234, 0.25);
             border-color: #667eea;
         }
 
-        .card.expanded {
-            grid-column: span 1;
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
         }
 
         .card-title {
-            font-size: 1.3em;
+            font-size: 1.25em;
             font-weight: 700;
-            color: #333;
-            margin-bottom: 12px;
+            color: #2d3748;
             display: flex;
             align-items: center;
-            gap: 8px;
-            justify-content: space-between;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .card-badges {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.popular {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge.trending {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .icon {
+            font-size: 1.4em;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
         }
 
         .card-description {
-            color: #666;
+            color: #718096;
             font-size: 0.95em;
             line-height: 1.6;
             margin-bottom: 16px;
+            min-height: 52px;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
         }
 
         .card-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 12px;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85em;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: scale(1.05);
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #667eea;
-            border: 1px solid #667eea;
-        }
-
-        .btn-secondary:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 0.8em;
+            margin-bottom: 16px;
         }
 
         .tag {
             display: inline-block;
-            background: #f0f0f0;
+            background: #f0f4ff;
             color: #667eea;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
             font-weight: 600;
         }
 
@@ -215,72 +400,144 @@
             color: white;
         }
 
-        .icon {
-            font-size: 1.2em;
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f4ff;
+            color: #667eea;
+            border: 1.5px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .favorite-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4em;
+            padding: 4px;
+            transition: all 0.2s;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.05));
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.25);
+        }
+
+        .favorite-btn.active {
+            color: #ffc107;
+            text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
         }
 
         .category-section {
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
 
         .category-title {
-            font-size: 1.5em;
-            font-weight: 700;
+            font-size: 1.6em;
+            font-weight: 800;
             color: white;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255,255,255,0.3);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .search-box {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto 30px;
-            display: block;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1em;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            color: white;
+        .favorites-section {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
             border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
         }
 
-        .stat-number {
-            font-size: 2em;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 40px;
+        .favorites-title {
             color: white;
-            font-size: 1.1em;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .favorites-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .favorite-chip {
+            background: white;
+            color: #667eea;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .favorite-chip:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .favorite-chip .remove {
+            opacity: 0.6;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .favorite-chip .remove:hover {
+            opacity: 1;
         }
 
         .modal {
@@ -291,7 +548,8 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
             animation: fadeIn 0.3s ease;
         }
 
@@ -304,12 +562,12 @@
         .modal-content {
             background: white;
             padding: 40px;
-            border-radius: 12px;
-            max-width: 600px;
+            border-radius: 20px;
+            max-width: 700px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
             animation: slideIn 0.3s ease;
         }
 
@@ -321,118 +579,68 @@
             border: none;
             font-size: 2em;
             cursor: pointer;
-            color: #999;
+            color: #cbd5e0;
+            transition: color 0.2s;
         }
 
         .modal-close:hover {
-            color: #333;
+            color: #2d3748;
         }
 
         .modal-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #333;
+            font-size: 2em;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: #2d3748;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
 
         .modal-section {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .modal-section-title {
             font-size: 1.1em;
             font-weight: 700;
             color: #667eea;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .modal-section-content {
-            color: #666;
+            color: #4a5568;
             line-height: 1.8;
-            font-size: 0.95em;
+            font-size: 0.98em;
         }
 
         .usage-example {
-            background: #f5f5f5;
+            background: #f7fafc;
             border-left: 4px solid #667eea;
             padding: 16px;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
+            border-radius: 8px;
+            font-family: 'Monaco', monospace;
             font-size: 0.85em;
-            margin-top: 8px;
+            margin-top: 10px;
             overflow-x: auto;
+            color: #2d3748;
         }
 
-        .favorite-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            padding: 4px;
-            transition: transform 0.2s;
-        }
-
-        .favorite-btn:hover {
-            transform: scale(1.2);
-        }
-
-        .favorite-btn.active {
-            color: #ffc107;
-        }
-
-        .favorites-section {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .favorites-title {
-            color: white;
-            font-size: 1.2em;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .favorites-list {
+        .modal-actions {
             display: flex;
+            gap: 12px;
+            margin-top: 28px;
             flex-wrap: wrap;
-            gap: 10px;
         }
 
-        .favorite-chip {
-            background: white;
-            color: #667eea;
-            padding: 8px 16px;
-            border-radius: 20px;
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2em;
             font-weight: 600;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .favorite-chip:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .favorite-chip .remove {
-            opacity: 0.6;
-            cursor: pointer;
-        }
-
-        .favorite-chip .remove:hover {
-            opacity: 1;
         }
 
         @keyframes fadeIn {
@@ -442,31 +650,60 @@
 
         @keyframes slideIn {
             from {
-                transform: translateY(-50px);
+                transform: scale(0.95);
                 opacity: 0;
             }
             to {
-                transform: translateY(0);
+                transform: scale(1);
                 opacity: 1;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+
             header h1 {
                 font-size: 2em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            header h1 {
+                font-size: 1.6em;
             }
 
             .grid {
                 grid-template-columns: 1fr;
             }
 
-            .tabs {
+            .mega-tabs {
                 justify-content: flex-start;
                 overflow-x: auto;
+                padding-bottom: 8px;
             }
 
             .modal-content {
                 padding: 24px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.85em;
             }
         }
     </style>
@@ -474,43 +711,51 @@
 <body>
     <div class="container">
         <header>
-            <h1>🚀 Skills & Agents Dashboard</h1>
-            <p>Explore and interact with available AI capabilities and autonomous agents</p>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h1>🚀 Skills & Agents Dashboard</h1>
+                    <p>Your complete AI toolkit - 69+ skills, agents, and integrations</p>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
         </header>
 
-        <div class="stats">
+        <div class="quick-stats">
             <div class="stat-card">
                 <div class="stat-number" id="skillCount">0</div>
-                <div class="stat-label">Skills</div>
+                <div class="stat-label">Skills Available</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card trending">
                 <div class="stat-number" id="agentCount">0</div>
-                <div class="stat-label">Agents</div>
+                <div class="stat-label">Powerful Agents</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="categoryCount">0</div>
-                <div class="stat-label">Categories</div>
+                <div class="stat-label">Rich Categories</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card highlight">
                 <div class="stat-number" id="favoriteCount">0</div>
-                <div class="stat-label">Favorites ⭐</div>
+                <div class="stat-label">Your Favorites ⭐</div>
             </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Try: 'azure', 'JIRA', 'deploy', or 'kubernetes'...">
+            <div class="filter-chips" id="filterChips"></div>
         </div>
 
         <div class="favorites-section" id="favoritesSection" style="display: none;">
-            <div class="favorites-title">⭐ Your Favorites</div>
+            <div class="favorites-title">⭐ Saved for Later</div>
             <div class="favorites-list" id="favoritesList"></div>
         </div>
 
-        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search skills, agents, or tags...">
-
-        <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('all')">All</button>
-            <button class="tab-button" onclick="switchTab('azure')">Azure</button>
-            <button class="tab-button" onclick="switchTab('agents')">Agents</button>
-            <button class="tab-button" onclick="switchTab('platform')">Platform</button>
-            <button class="tab-button" onclick="switchTab('development')">Development</button>
-        </div>
+        <nav class="mega-tabs">
+            <button class="tab-button active" onclick="switchTab('all')">🏠 All</button>
+            <button class="tab-button" onclick="switchTab('azure')">☁️ Cloud</button>
+            <button class="tab-button" onclick="switchTab('jira')">🎫 Work</button>
+            <button class="tab-button" onclick="switchTab('agents')">🤖 Agents</button>
+            <button class="tab-button" onclick="switchTab('development')">⚙️ Dev</button>
+        </nav>
 
         <!-- All Tab -->
         <div id="all" class="tab-content active">
@@ -582,315 +827,32 @@
     <script>
         let currentSkill = null;
         let favorites = JSON.parse(localStorage.getItem('dashboardFavorites')) || [];
+        let darkMode = localStorage.getItem('darkMode') === 'true';
 
+        // Enhanced skill data with badges
         const skillsData = {
             azure: [
-                { name: 'azure-ai', desc: 'Azure AI services: Search, Speech, OpenAI, Document Intelligence. Vector/hybrid search, speech-to-text, OCR.', icon: '🤖', useCases: ['AI Search queries', 'Speech to text transcription', 'OCR document processing', 'Vector embeddings'] },
+                { name: 'azure-ai', desc: 'Azure AI services: Search, Speech, OpenAI, Document Intelligence. Vector/hybrid search, speech-to-text, OCR.', icon: '🤖', useCases: ['AI Search queries', 'Speech to text transcription', 'OCR document processing', 'Vector embeddings'], popular: true },
                 { name: 'azure-aigateway', desc: 'AI Gateway with semantic caching, token limits, content safety, load balancing for AI models and agents.', icon: '🌐', useCases: ['Rate limiting AI requests', 'Content filtering', 'Token cost optimization', 'Load distribution'] },
                 { name: 'azure-cloud-migrate', desc: 'Cross-cloud migration: Lambda→Functions, Fargate→Container Apps, Kubernetes→Container Apps.', icon: '☁️', useCases: ['AWS to Azure migration', 'Serverless function conversion', 'Container orchestration migration'] },
                 { name: 'azure-compliance', desc: 'Azure compliance and security audits with azqr, Key Vault expiration checks, best-practice assessment.', icon: '🔒', useCases: ['Security audits', 'Compliance reporting', 'Certificate expiration alerts', 'Best practice validation'] },
-                { name: 'azure-compute', desc: 'Azure VM & VMSS: recommendations, pricing, autoscale, troubleshooting, capacity reservations.', icon: '💻', useCases: ['VM sizing recommendations', 'Cost estimation', 'Autoscaling configuration', 'Connectivity troubleshooting'] },
+                { name: 'azure-compute', desc: 'Azure VM & VMSS: recommendations, pricing, autoscale, troubleshooting, capacity reservations.', icon: '💻', useCases: ['VM sizing recommendations', 'Cost estimation', 'Autoscaling configuration', 'Connectivity troubleshooting'], popular: true },
                 { name: 'azure-cost', desc: 'Cost management: query historical costs, forecast spending, optimize and reduce waste.', icon: '💰', useCases: ['Cost analysis', 'Budget forecasting', 'Spend optimization', 'Cost anomaly detection'] },
-                { name: 'azure-deploy', desc: 'Execute Azure deployments (azd up, terraform apply, bicep deploy) with error recovery.', icon: '🚀', useCases: ['Infrastructure deployment', 'Terraform automation', 'Bicep templates', 'Deployment recovery'] },
+                { name: 'azure-deploy', desc: 'Execute Azure deployments (azd up, terraform apply, bicep deploy) with error recovery.', icon: '🚀', useCases: ['Infrastructure deployment', 'Terraform automation', 'Bicep templates', 'Deployment recovery'], trending: true },
                 { name: 'azure-diagnostics', desc: 'Debug production issues using AppLens, Azure Monitor, resource health, safe triage.', icon: '🔧', useCases: ['Production debugging', 'Log analysis', 'Performance troubleshooting', 'Root cause analysis'] },
-                { name: 'azure-kubernetes', desc: 'Plan, create, and configure production-ready AKS clusters with Day-0 checklist and networking.', icon: '⚙️', useCases: ['AKS cluster creation', 'Networking setup', 'Autoscaling config', 'Security hardening'] },
+                { name: 'azure-kubernetes', desc: 'Plan, create, and configure production-ready AKS clusters with Day-0 checklist and networking.', icon: '⚙️', useCases: ['AKS cluster creation', 'Networking setup', 'Autoscaling config', 'Security hardening'], popular: true },
                 { name: 'azure-kusto', desc: 'Query and analyze data in Azure Data Explorer (KQL) for log analytics and telemetry.', icon: '📊', useCases: ['Time series analysis', 'Log analytics', 'Performance metrics', 'Anomaly detection'] },
                 { name: 'azure-messaging', desc: 'Troubleshoot Azure Messaging SDKs for Event Hubs and Service Bus. Connection, auth, and processing issues.', icon: '📨', useCases: ['Event Hub troubleshooting', 'Service Bus debugging', 'Message processing issues', 'Connection failures'] },
                 { name: 'azure-observability', desc: 'Azure Monitor, App Insights, Log Analytics, Alerts, Workbooks for observability and monitoring.', icon: '👁️', useCases: ['Metric collection', 'Alert setup', 'Dashboard creation', 'Application monitoring'] },
                 { name: 'azure-postgres', desc: 'Create Azure Database for PostgreSQL with passwordless auth and Microsoft Entra ID integration.', icon: '🐘', useCases: ['Database creation', 'Passwordless auth setup', 'Managed identity config'] },
-                { name: 'azure-prepare', desc: 'Prepare Azure apps for deployment: infrastructure (Bicep/Terraform), docker, azure.yaml.', icon: '📦', useCases: ['App modernization', 'Infrastructure planning', 'Docker setup', 'IaC generation'] },
+                { name: 'azure-prepare', desc: 'Prepare Azure apps for deployment: infrastructure (Bicep/Terraform), docker, azure.yaml.', icon: '📦', useCases: ['App modernization', 'Infrastructure planning', 'Docker setup', 'IaC generation'], trending: true },
                 { name: 'azure-quotas', desc: 'Check/manage Azure quotas and usage. Capacity validation, region selection, limits.', icon: '📈', useCases: ['Quota increase requests', 'Capacity planning', 'Regional availability', 'Service limits'] },
             ],
             jira: [
                 { name: 'jira-add-comment', desc: 'Add comments to Jira issues to discuss and track progress on work items.', icon: '💬', useCases: ['Issue discussion', 'Progress updates', 'Team collaboration', 'Issue tracking'] },
                 { name: 'jira-add-worklog', desc: 'Log time spent on Jira issues and track work progress with start time and duration.', icon: '⏱️', useCases: ['Time tracking', 'Work logging', 'Effort estimation', 'Resource tracking'] },
-                { name: 'jira-create-issue', desc: 'Create new Jira issues with full details, assignees, labels, and custom fields.', icon: '📝', useCases: ['Bug reporting', 'Feature requests', 'Task creation', 'Issue management'] },
+                { name: 'jira-create-issue', desc: 'Create new Jira issues with full details, assignees, labels, and custom fields.', icon: '📝', useCases: ['Bug reporting', 'Feature requests', 'Task creation', 'Issue management'], popular: true },
                 { name: 'jira-update-issue', desc: 'Update existing Jira issues with new information, status changes, and field updates.', icon: '✏️', useCases: ['Status updates', 'Field modifications', 'Priority changes', 'Issue refinement'] },
                 { name: 'jira-issue-read', desc: 'Read and retrieve Jira issue details, comments, sub-issues, and labels with full context.', icon: '📖', useCases: ['Issue research', 'Details retrieval', 'Comment analysis', 'Sub-task viewing'] },
                 { name: 'jira-get-user-info', desc: 'Retrieve current user information and profile details from Jira Cloud.', icon: '👤', useCases: ['User verification', 'Profile checking', 'Team member lookup'] },
-                { name: 'jira-search-issues', desc: 'Search Jira issues using JQL (Jira Query Language) with filters and advanced queries.', icon: '🔍', useCases: ['Issue discovery', 'Bug tracking', 'Advanced filtering', 'Report generation'] },
-                { name: 'jira-create-link', desc: 'Create links between Jira issues to show dependencies, blocks, clones, and relationships.', icon: '🔗', useCases: ['Dependency mapping', 'Blocking relationships', 'Epic linking', 'Issue correlation'] },
-                { name: 'jira-get-transitions', desc: 'Get available workflow transitions for Jira issues to move them through project workflow.', icon: '🔄', useCases: ['Workflow automation', 'Status progression', 'State management'] },
-                { name: 'jira-transition-issue', desc: 'Transition Jira issues between workflow states with optional comments and field updates.', icon: '→', useCases: ['Status updates', 'Workflow progression', 'Automation', 'State changes'] },
-                { name: 'compass-create-component', desc: 'Create Compass components to represent services, libraries, and applications in your architecture.', icon: '🏗️', useCases: ['Component registration', 'Service mapping', 'Architecture documentation'] },
-                { name: 'compass-get-components', desc: 'List and retrieve Compass components with filtering by type, labels, and repositories.', icon: '📋', useCases: ['Component discovery', 'Service inventory', 'Dependency analysis'] },
-            ],
-            rovi: [
-                { name: 'rovo', desc: 'Rovo unified search across Jira, Confluence, and more. Query knowledge base with semantic understanding.', icon: '🔎', useCases: ['Cross-platform search', 'Knowledge discovery', 'Documentation lookup', 'Team information'] },
-                { name: 'rblog', desc: 'Blog management and content creation for Atlassian Rovo platform documentation.', icon: '📰', useCases: ['Blog publishing', 'Content creation', 'Knowledge sharing'] },
-                { name: 'rcash', desc: 'Cache and retrieve frequently accessed data in Rovo for optimized search performance.', icon: '💾', useCases: ['Performance optimization', 'Data caching', 'Query acceleration'] },
-                { name: 'rtech', desc: 'Technical documentation and knowledge base management for Rovo platform.', icon: '⚙️', useCases: ['Technical docs', 'API documentation', 'Setup guides'] },
-                { name: 'rearch', desc: 'Architecture documentation and system design planning using Rovo knowledge management.', icon: '🏛️', useCases: ['Architecture docs', 'System design', 'Technical planning'] },
-            ],
-            confluence: [
-                { name: 'confluence-create-page', desc: 'Create new Confluence pages and blog posts with rich formatting and content.', icon: '📄', useCases: ['Documentation creation', 'Blog posts', 'Knowledge articles', 'Team wikis'] },
-                { name: 'confluence-get-page', desc: 'Retrieve Confluence page content, metadata, and body with markdown or ADF formatting.', icon: '📖', useCases: ['Content retrieval', 'Page analysis', 'Documentation review'] },
-                { name: 'confluence-update-page', desc: 'Update existing Confluence pages with new content, title changes, and status updates.', icon: '✏️', useCases: ['Content updates', 'Page refinement', 'Documentation maintenance'] },
-                { name: 'confluence-create-footer-comment', desc: 'Add footer comments to Confluence pages for discussions and feedback.', icon: '💬', useCases: ['Page discussions', 'Feedback collection', 'Comments and notes'] },
-                { name: 'confluence-create-inline-comment', desc: 'Add inline comments to specific text in Confluence pages for targeted feedback.', icon: '🎯', useCases: ['Text comments', 'Specific feedback', 'Code reviews'] },
-                { name: 'confluence-get-page-comments', desc: 'Retrieve comments from Confluence pages including footer and inline comments.', icon: '💭', useCases: ['Comment retrieval', 'Discussion review', 'Feedback analysis'] },
-                { name: 'confluence-get-spaces', desc: 'List and retrieve Confluence spaces with filtering and metadata.', icon: '🏢', useCases: ['Space discovery', 'Team spaces', 'Project spaces'] },
-                { name: 'confluence-get-page-descendants', desc: 'Get child pages and descendants of a Confluence page for hierarchy navigation.', icon: '🌳', useCases: ['Page hierarchy', 'Content structure', 'Navigation'] },
-            ],
-            agents: [
-                { name: 'explore', desc: 'Fast exploration agent for codebase research. Parallel investigation across modules.', icon: '🔍', useCases: ['Parallel code analysis', 'Module investigation', 'Cross-cutting searches'] },
-                { name: 'task', desc: 'Execute commands with verbose output (tests, builds, lints, installs).', icon: '⚙️', useCases: ['Build execution', 'Test running', 'Package installation', 'Linting tasks'] },
-                { name: 'general-purpose', desc: 'Full-capability agent with complete toolset for complex multi-step tasks (Sonnet).', icon: '🧠', useCases: ['Complex workflows', 'Multi-step processes', 'Advanced reasoning'] },
-                { name: 'code-review', desc: 'Code review agent with high signal-to-noise ratio. Surfaces bugs and security issues only.', icon: '👀', useCases: ['Pull request review', 'Security scanning', 'Bug detection'] },
-                { name: 'Azure Principal Architect', desc: 'Expert Azure Well-Architected Framework guidance and Microsoft best practices.', icon: '🏗️', useCases: ['Architecture design', 'Best practice advice', 'Framework consultation'] },
-                { name: 'MCP M365 Agent Expert', desc: 'Build MCP-based declarative agents for Microsoft 365 Copilot with Model Context Protocol.', icon: '🔌', useCases: ['M365 agent development', 'MCP integration', 'Copilot customization'] },
-                { name: 'OpenAPI to Application', desc: 'Generate working applications from OpenAPI specifications.', icon: '📋', useCases: ['API code generation', 'Application scaffolding', 'Spec to code'] },
-            ],
-            platform: [
-                { name: 'agent-browser', desc: 'Browser automation: navigate pages, fill forms, click buttons, take screenshots, extract data.', icon: '🌐', useCases: ['Web scraping', 'Form automation', 'Screenshot capture', 'Data extraction'] },
-                { name: 'agents-cli', desc: 'Manage AI coding agent CLIs. Add, use, pull, push agent versions, sync config.', icon: '💻', useCases: ['Agent versioning', 'Config management', 'Agent orchestration'] },
-                { name: 'appinsights-instrumentation', desc: 'Instrument webapps with Azure Application Insights. Telemetry patterns and SDK setup.', icon: '📊', useCases: ['Telemetry setup', 'Performance tracking', 'Exception monitoring'] },
-                { name: 'azure-enterprise-infra-planner', desc: 'Architect enterprise Azure infrastructure: networking, identity, security, compliance, DR topologies.', icon: '🏢', useCases: ['Landing zone design', 'Multi-region setup', 'Compliance architecture'] },
-                { name: 'azure-hosted-copilot-sdk', desc: 'Build and deploy GitHub Copilot SDK apps on Azure with BYOM support.', icon: '🤖', useCases: ['Copilot app development', 'Custom model integration', 'SDK deployment'] },
-                { name: 'azure-rbac', desc: 'Manage Azure role-based access control and identity governance.', icon: '🔐', useCases: ['RBAC configuration', 'Access control', 'Role assignments'] },
-                { name: 'azure-resource-lookup', desc: 'Search and discover Azure resources across subscriptions.', icon: '🔎', useCases: ['Resource discovery', 'Cross-subscription search', 'Inventory management'] },
-                { name: 'azure-storage', desc: 'Manage Azure Storage accounts, blobs, tables, queues, and file shares.', icon: '💾', useCases: ['Storage configuration', 'Blob management', 'File sharing'] },
-                { name: 'entra-agent-id', desc: 'Microsoft Entra ID agent for identity and access management.', icon: '👤', useCases: ['Identity management', 'User provisioning', 'Access policies'] },
-                { name: 'entra-app-registration', desc: 'Register and manage applications in Microsoft Entra ID.', icon: '📝', useCases: ['App registration', 'OAuth setup', 'API permissions'] },
-            ],
-            development: [
-                { name: 'code-review', desc: 'High-signal code review agent focusing on bugs and security only.', icon: '👀', useCases: ['PR review', 'Security audit', 'Bug detection'] },
-                { name: 'debug', desc: 'Debugging and troubleshooting assistance.', icon: '🐛', useCases: ['Issue diagnosis', 'Stack trace analysis', 'Performance debugging'] },
-                { name: 'deploy-to-vercel', desc: 'Deploy applications to Vercel hosting platform.', icon: '🚀', useCases: ['App deployment', 'CI/CD automation', 'Preview deployments'] },
-                { name: 'vercel-cli-with-tokens', desc: 'Vercel CLI with token management and authentication.', icon: '🔑', useCases: ['CLI authentication', 'Token management', 'Deployment CLI'] },
-                { name: 'vercel-composition-patterns', desc: 'React composition patterns for Vercel applications.', icon: '⚛️', useCases: ['React patterns', 'Component composition', 'Code best practices'] },
-                { name: 'vercel-react-best-practices', desc: 'React best practices for Vercel deployments.', icon: '✨', useCases: ['React optimization', 'Performance tuning', 'Best practices'] },
-                { name: 'multi-stage-dockerfile', desc: 'Create optimized multi-stage Docker images.', icon: '🐳', useCases: ['Docker optimization', 'Image building', 'Build efficiency'] },
-                { name: 'rush-cli', desc: 'Rush monorepo management CLI and workspace tools.', icon: '📦', useCases: ['Monorepo management', 'Workspace commands', 'Build orchestration'] },
-                { name: 'create-draft-pr', desc: 'Create draft pull requests for work in progress.', icon: '🔄', useCases: ['PR creation', 'WIP management', 'Collaboration'] },
-                { name: 'create-pr', desc: 'Create and manage pull requests with commit messages.', icon: '📋', useCases: ['PR management', 'Code review', 'Merge automation'] },
-                { name: 'commit', desc: 'Git commit operations with message formatting.', icon: '✏️', useCases: ['Git commits', 'Commit messaging', 'Version control'] },
-                { name: 'merge', desc: 'Merge pull requests and branches.', icon: '🔀', useCases: ['Branch merging', 'PR merging', 'Conflict resolution'] },
-                { name: 'update-pr', desc: 'Update existing pull requests with new changes.', icon: '🔄', useCases: ['PR updates', 'Change management', 'Review refinement'] },
-            ]
-        };
-
-        function createSkillCard(skill, category) {
-            const isFavorited = favorites.includes(skill.name);
-            return `
-                <div class="card" data-skill="${skill.name}" data-category="${category}" data-searchable="${skill.name.toLowerCase()} ${skill.desc.toLowerCase()}">
-                    <div class="card-title">
-                        <span class="icon">${skill.icon}</span>
-                        <span style="flex: 1;">${skill.name}</span>
-                        <button class="favorite-btn ${isFavorited ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${skill.name}')">
-                            ${isFavorited ? '★' : '☆'}
-                        </button>
-                    </div>
-                    <div class="card-description">${skill.desc}</div>
-                    <div class="card-tags">
-                        <span class="tag primary">${category}</span>
-                        <span class="tag secondary">${skill.name.split('-')[0]}</span>
-                    </div>
-                    <div class="card-actions">
-                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); openDetail('${skill.name}', '${category}')">
-                            📖 Details
-                        </button>
-                        <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); copyToClipboard('${skill.name}')">
-                            📋 Copy
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function openDetail(skillName, category) {
-            currentSkill = skillName;
-            const categories = Object.entries(skillsData);
-            let skill = null;
-            
-            for (const [cat, skills] of categories) {
-                const found = skills.find(s => s.name === skillName);
-                if (found) {
-                    skill = found;
-                    break;
-                }
-            }
-
-            if (!skill) return;
-
-            const isFavorited = favorites.includes(skillName);
-            document.getElementById('modalIcon').textContent = skill.icon;
-            document.getElementById('modalName').textContent = skill.name;
-            document.getElementById('modalDescription').textContent = skill.desc;
-            document.getElementById('modalCategory').textContent = category;
-            document.getElementById('modalFavoriteBtn').classList.toggle('active', isFavorited);
-            document.getElementById('modalFavoriteBtn').textContent = isFavorited ? '★' : '☆';
-            
-            const useCasesHtml = skill.useCases.map(uc => `<div>✓ ${uc}</div>`).join('');
-            document.getElementById('modalUseCases').innerHTML = useCasesHtml;
-
-            document.getElementById('detailModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('detailModal').classList.remove('active');
-            currentSkill = null;
-        }
-
-        function toggleFavorite(skillName) {
-            const index = favorites.indexOf(skillName);
-            if (index > -1) {
-                favorites.splice(index, 1);
-            } else {
-                favorites.push(skillName);
-            }
-            localStorage.setItem('dashboardFavorites', JSON.stringify(favorites));
-            updateFavoritesDisplay();
-            renderAllContent();
-            
-            if (currentSkill === skillName) {
-                const isFavorited = favorites.includes(skillName);
-                document.getElementById('modalFavoriteBtn').classList.toggle('active', isFavorited);
-                document.getElementById('modalFavoriteBtn').textContent = isFavorited ? '★' : '☆';
-            }
-        }
-
-        function updateFavoritesDisplay() {
-            const favSection = document.getElementById('favoritesSection');
-            const favoritesList = document.getElementById('favoritesList');
-            document.getElementById('favoriteCount').textContent = favorites.length;
-
-            if (favorites.length === 0) {
-                favSection.style.display = 'none';
-                favoritesList.innerHTML = '';
-            } else {
-                favSection.style.display = 'block';
-                favoritesList.innerHTML = favorites.map(fav => `
-                    <div class="favorite-chip">
-                        <span onclick="openDetail('${fav}', 'azure'); event.stopPropagation();" style="cursor: pointer; flex: 1;">⭐ ${fav}</span>
-                        <span class="remove" onclick="toggleFavorite('${fav}'); event.stopPropagation();">✕</span>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function renderAllContent() {
-            const allContainer = document.getElementById('all-content');
-            let html = '';
-            
-            for (const [category, skills] of Object.entries(skillsData)) {
-                html += `<div class="category-section">
-                    <div class="category-title">${category.charAt(0).toUpperCase() + category.slice(1)}</div>
-                    <div class="grid">`;
-                
-                skills.forEach(skill => {
-                    html += createSkillCard(skill, category);
-                });
-                
-                html += `</div></div>`;
-            }
-            
-            allContainer.innerHTML = html;
-        }
-
-        function switchTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-            
-            // Render content for specific tabs
-            if (tabName === 'all') {
-                if (!document.getElementById('all-content').innerHTML) {
-                    renderAllContent();
-                }
-            } else if (skillsData[tabName]) {
-                const container = document.getElementById(tabName + '-content');
-                let html = '<div class="grid">';
-                skillsData[tabName].forEach(skill => {
-                    html += createSkillCard(skill, tabName);
-                });
-                html += '</div>';
-                container.innerHTML = html;
-            }
-            
-            updateStats();
-        }
-
-        function updateStats() {
-            let totalSkills = 0;
-            let totalCategories = Object.keys(skillsData).length;
-            
-            for (const skills of Object.values(skillsData)) {
-                totalSkills += skills.length;
-            }
-            
-            document.getElementById('skillCount').textContent = totalSkills;
-            document.getElementById('agentCount').textContent = skillsData.agents ? skillsData.agents.length : 0;
-            document.getElementById('categoryCount').textContent = totalCategories;
-        }
-
-        function searchSkills(query) {
-            const searchLower = query.toLowerCase();
-            const allCards = document.querySelectorAll('.card');
-            let visibleCount = 0;
-            
-            allCards.forEach(card => {
-                const searchableText = card.getAttribute('data-searchable');
-                if (searchableText.includes(searchLower)) {
-                    card.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            if (visibleCount === 0 && query) {
-                const activeTab = document.querySelector('.tab-content.active');
-                const existingNoResults = activeTab.querySelector('.no-results');
-                if (!existingNoResults) {
-                    const noResults = document.createElement('div');
-                    noResults.className = 'no-results';
-                    noResults.innerHTML = '❌ No skills found matching your search';
-                    activeTab.appendChild(noResults);
-                }
-            } else {
-                const noResults = document.querySelector('.no-results');
-                if (noResults) noResults.remove();
-            }
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = event.target.closest('.btn');
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Copied!';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 2000);
-            });
-        }
-
-        function openInNewTab(skillName) {
-            window.open(`https://github.com/search?q=${skillName}`, '_blank');
-        }
-
-        // Close modal on background click
-        document.addEventListener('click', function(event) {
-            const modal = document.getElementById('detailModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            renderAllContent();
-            updateStats();
-            updateFavoritesDisplay();
-            
-            document.getElementById('searchBox').addEventListener('input', (e) => {
-                searchSkills(e.target.value);
-            });
-        });
-    </script>
-</body>
-</html>
+                { name: 'jira-search-issues', desc: 'Search Jira issues using JQL (Jira Query Language) with filters and advanced
