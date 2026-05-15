@@ -855,4 +855,514 @@
                 { name: 'jira-update-issue', desc: 'Update existing Jira issues with new information, status changes, and field updates.', icon: '✏️', useCases: ['Status updates', 'Field modifications', 'Priority changes', 'Issue refinement'] },
                 { name: 'jira-issue-read', desc: 'Read and retrieve Jira issue details, comments, sub-issues, and labels with full context.', icon: '📖', useCases: ['Issue research', 'Details retrieval', 'Comment analysis', 'Sub-task viewing'] },
                 { name: 'jira-get-user-info', desc: 'Retrieve current user information and profile details from Jira Cloud.', icon: '👤', useCases: ['User verification', 'Profile checking', 'Team member lookup'] },
-                { name: 'jira-search-issues', desc: 'Search Jira issues using JQL (Jira Query Language) with filters and advanced
+                { name: 'jira-search-issues', desc: 'Search Jira issues using JQL (Jira Query Language) with filters and advanced queries.', icon: '🔍', useCases: ['Issue discovery', 'Bug tracking', 'Advanced filtering', 'Report generation'], popular: true },
+                { name: 'jira-create-link', desc: 'Create links between Jira issues to show dependencies, blocks, clones, and relationships.', icon: '🔗', useCases: ['Dependency mapping', 'Blocking relationships', 'Epic linking', 'Issue correlation'] },
+                { name: 'jira-get-transitions', desc: 'Get available workflow transitions for Jira issues to move them through project workflow.', icon: '🔄', useCases: ['Workflow automation', 'Status progression', 'State management'] },
+                { name: 'jira-transition-issue', desc: 'Transition Jira issues between workflow states with optional comments and field updates.', icon: '→', useCases: ['Status updates', 'Workflow progression', 'Automation', 'State changes'] },
+                { name: 'compass-create-component', desc: 'Create Compass components to represent services, libraries, and applications in your architecture.', icon: '🏗️', useCases: ['Component registration', 'Service mapping', 'Architecture documentation'] },
+                { name: 'compass-get-components', desc: 'List and retrieve Compass components with filtering by type, labels, and repositories.', icon: '📋', useCases: ['Component discovery', 'Service inventory', 'Dependency analysis'] },
+            ],
+            rovi: [
+                { name: 'rovo', desc: 'Rovo unified search across Jira, Confluence, and more. Query knowledge base with semantic understanding.', icon: '🔎', useCases: ['Cross-platform search', 'Knowledge discovery', 'Documentation lookup', 'Team information'], trending: true },
+                { name: 'rblog', desc: 'Blog management and content creation for Atlassian Rovo platform documentation.', icon: '📰', useCases: ['Blog publishing', 'Content creation', 'Knowledge sharing'] },
+                { name: 'rcash', desc: 'Cache and retrieve frequently accessed data in Rovo for optimized search performance.', icon: '💾', useCases: ['Performance optimization', 'Data caching', 'Query acceleration'] },
+                { name: 'rtech', desc: 'Technical documentation and knowledge base management for Rovo platform.', icon: '⚙️', useCases: ['Technical docs', 'API documentation', 'Setup guides'] },
+                { name: 'rearch', desc: 'Architecture documentation and system design planning using Rovo knowledge management.', icon: '🏛️', useCases: ['Architecture docs', 'System design', 'Technical planning'] },
+            ],
+            confluence: [
+                { name: 'confluence-create-page', desc: 'Create new Confluence pages and blog posts with rich formatting and content.', icon: '📄', useCases: ['Documentation creation', 'Blog posts', 'Knowledge articles', 'Team wikis'], popular: true },
+                { name: 'confluence-get-page', desc: 'Retrieve Confluence page content, metadata, and body with markdown or ADF formatting.', icon: '📖', useCases: ['Content retrieval', 'Page analysis', 'Documentation review'] },
+                { name: 'confluence-update-page', desc: 'Update existing Confluence pages with new content, title changes, and status updates.', icon: '✏️', useCases: ['Content updates', 'Page refinement', 'Documentation maintenance'] },
+                { name: 'confluence-create-footer-comment', desc: 'Add footer comments to Confluence pages for discussions and feedback.', icon: '💬', useCases: ['Page discussions', 'Feedback collection', 'Comments and notes'] },
+                { name: 'confluence-create-inline-comment', desc: 'Add inline comments to specific text in Confluence pages for targeted feedback.', icon: '🎯', useCases: ['Text comments', 'Specific feedback', 'Code reviews'] },
+                { name: 'confluence-get-page-comments', desc: 'Retrieve comments from Confluence pages including footer and inline comments.', icon: '💭', useCases: ['Comment retrieval', 'Discussion review', 'Feedback analysis'] },
+                { name: 'confluence-get-spaces', desc: 'List and retrieve Confluence spaces with filtering and metadata.', icon: '🏢', useCases: ['Space discovery', 'Team spaces', 'Project spaces'] },
+                { name: 'confluence-get-page-descendants', desc: 'Get child pages and descendants of a Confluence page for hierarchy navigation.', icon: '🌳', useCases: ['Page hierarchy', 'Content structure', 'Navigation'] },
+            ],
+            agents: [
+                { name: 'explore', desc: 'Fast exploration agent for codebase research. Parallel investigation across modules.', icon: '🔍', useCases: ['Parallel code analysis', 'Module investigation', 'Cross-cutting searches'], trending: true },
+                { name: 'task', desc: 'Execute commands with verbose output (tests, builds, lints, installs).', icon: '⚙️', useCases: ['Build execution', 'Test running', 'Package installation', 'Linting tasks'] },
+                { name: 'general-purpose', desc: 'Full-capability agent with complete toolset for complex multi-step tasks (Sonnet).', icon: '🧠', useCases: ['Complex workflows', 'Multi-step processes', 'Advanced reasoning'], popular: true },
+                { name: 'code-review', desc: 'Code review agent with high signal-to-noise ratio. Surfaces bugs and security issues only.', icon: '👀', useCases: ['Pull request review', 'Security scanning', 'Bug detection'] },
+                { name: 'Azure Principal Architect', desc: 'Expert Azure Well-Architected Framework guidance and Microsoft best practices.', icon: '🏗️', useCases: ['Architecture design', 'Best practice advice', 'Framework consultation'] },
+                { name: 'MCP M365 Agent Expert', desc: 'Build MCP-based declarative agents for Microsoft 365 Copilot with Model Context Protocol.', icon: '🔌', useCases: ['M365 agent development', 'MCP integration', 'Copilot customization'] },
+                { name: 'OpenAPI to Application', desc: 'Generate working applications from OpenAPI specifications.', icon: '📋', useCases: ['API code generation', 'Application scaffolding', 'Spec to code'] },
+            ],
+        };
+
+        function createSkillCard(skill, category) {
+            const isFavorited = favorites.includes(skill.name);
+            const badges = [];
+            if (skill.popular) badges.push('<span class="badge popular">⭐ Popular</span>');
+            if (skill.trending) badges.push('<span class="badge trending">🔥 Trending</span>');
+
+            return `
+                <div class="card" data-skill="${skill.name}" data-category="${category}" data-searchable="${skill.name.toLowerCase()} ${skill.desc.toLowerCase()}">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="icon">${skill.icon}</span>
+                            <span>${skill.name}</span>
+                        </div>
+                        <button class="favorite-btn ${isFavorited ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${skill.name}')">
+                            ${isFavorited ? '★' : '☆'}
+                        </button>
+                    </div>
+                    <div class="card-badges">${badges.join('')}</div>
+                    <div class="card-description">${skill.desc}</div>
+                    <div class="card-tags">
+                        <span class="tag primary">${category.toUpperCase()}</span>
+                        <span class="tag secondary">${skill.name.split('-')[0].toUpperCase()}</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); openDetail('${skill.name}', '${category}')">
+                            📖 Details
+                        </button>
+                        <button class="btn btn-secondary" onclick="event.stopPropagation(); copyToClipboard('${skill.name}')">
+                            📋 Copy
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleTheme() {
+            darkMode = !darkMode;
+            localStorage.setItem('darkMode', darkMode);
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.theme-toggle').textContent = darkMode ? '☀️' : '🌙';
+        }
+
+        function openDetail(skillName, category) {
+            currentSkill = skillName;
+            let skill = null;
+            
+            for (const [cat, skills] of Object.entries(skillsData)) {
+                const found = skills.find(s => s.name === skillName);
+                if (found) {
+                    skill = found;
+                    break;
+                }
+            }
+
+            if (!skill) return;
+
+            const isFavorited = favorites.includes(skillName);
+            document.getElementById('modalIcon').textContent = skill.icon;
+            document.getElementById('modalName').textContent = skill.name;
+            document.getElementById('modalDescription').textContent = skill.desc;
+            document.getElementById('modalCategory').textContent = category.toUpperCase();
+            document.getElementById('modalFavoriteBtn').classList.toggle('active', isFavorited);
+            document.getElementById('modalFavoriteBtn').textContent = isFavorited ? '★' : '☆';
+            
+            const useCasesHtml = skill.useCases.map(uc => `<div>✓ ${uc}</div>`).join('');
+            document.getElementById('modalUseCases').innerHTML = useCasesHtml;
+
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+            currentSkill = null;
+        }
+
+        function toggleFavorite(skillName) {
+            const index = favorites.indexOf(skillName);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(skillName);
+            }
+            localStorage.setItem('dashboardFavorites', JSON.stringify(favorites));
+            updateFavoritesDisplay();
+            renderAllContent();
+            
+            if (currentSkill === skillName) {
+                const isFavorited = favorites.includes(skillName);
+                document.getElementById('modalFavoriteBtn').classList.toggle('active', isFavorited);
+                document.getElementById('modalFavoriteBtn').textContent = isFavorited ? '★' : '☆';
+            }
+        }
+
+        function updateFavoritesDisplay() {
+            const favSection = document.getElementById('favoritesSection');
+            const favoritesList = document.getElementById('favoritesList');
+            document.getElementById('favoriteCount').textContent = favorites.length;
+
+            if (favorites.length === 0) {
+                favSection.style.display = 'none';
+                favoritesList.innerHTML = '';
+            } else {
+                favSection.style.display = 'block';
+                favoritesList.innerHTML = favorites.map(fav => {
+                    let icon = '⭐';
+                    for (const skills of Object.values(skillsData)) {
+                        const found = skills.find(s => s.name === fav);
+                        if (found) {
+                            icon = found.icon;
+                            break;
+                        }
+                    }
+                    return `
+                        <div class="favorite-chip">
+                            <span>${icon}</span>
+                            <span onclick="openDetail('${fav}', 'all'); event.stopPropagation();" style="cursor: pointer; flex: 1;">${fav}</span>
+                            <span class="remove" onclick="toggleFavorite('${fav}'); event.stopPropagation();">✕</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function renderAllContent() {
+            const allContainer = document.getElementById('all-content');
+            let html = '';
+            
+            for (const [category, skills] of Object.entries(skillsData)) {
+                const categoryIcons = {
+                    'azure': '☁️', 'jira': '🎫', 'rovi': '🔎', 'confluence': '📚',
+                    'agents': '🤖', 'platform': '🌐', 'development': '⚙️'
+                };
+                const icon = categoryIcons[category] || '📦';
+                
+                html += `<div class="category-section">
+                    <div class="category-title">${icon} ${category.charAt(0).toUpperCase() + category.slice(1)}</div>
+                    <div class="grid">`;
+                
+                skills.forEach(skill => {
+                    html += createSkillCard(skill, category);
+                });
+                
+                html += `</div></div>`;
+            }
+            
+            allContainer.innerHTML = html;
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'all') {
+                if (!document.getElementById('all-content').innerHTML) {
+                    renderAllContent();
+                }
+            } else if (skillsData[tabName]) {
+                const container = document.getElementById(tabName + '-content');
+                let html = '<div class="grid">';
+                skillsData[tabName].forEach(skill => {
+                    html += createSkillCard(skill, tabName);
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            }
+            
+            updateStats();
+        }
+
+        function updateStats() {
+            let totalSkills = 0;
+            let totalCategories = Object.keys(skillsData).length;
+            
+            for (const skills of Object.values(skillsData)) {
+                totalSkills += skills.length;
+            }
+            
+            document.getElementById('skillCount').textContent = totalSkills;
+            document.getElementById('agentCount').textContent = skillsData.agents ? skillsData.agents.length : 0;
+            document.getElementById('categoryCount').textContent = totalCategories;
+        }
+
+        function searchSkills(query) {
+            const searchLower = query.toLowerCase();
+            const allCards = document.querySelectorAll('.card');
+            let visibleCount = 0;
+            
+            allCards.forEach(card => {
+                const searchableText = card.getAttribute('data-searchable');
+                if (searchableText.includes(searchLower)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            if (visibleCount === 0 && query) {
+                const activeTab = document.querySelector('.tab-content.active');
+                const existingNoResults = activeTab.querySelector('.no-results');
+                if (!existingNoResults) {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-results';
+                    noResults.innerHTML = '😅 No skills match "<strong>' + query + '</strong>". Try other keywords!';
+                    activeTab.appendChild(noResults);
+                }
+            } else {
+                const noResults = document.querySelector('.no-results');
+                if (noResults) noResults.remove();
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target.closest('.btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.pointerEvents = 'auto';
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Initialize with theme
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAllContent();
+            updateStats();
+            updateFavoritesDisplay();
+            
+            document.getElementById('searchBox').addEventListener('input', (e) => {
+                searchSkills(e.target.value);
+            });
+        });
+    </script>
+
+        function createSkillCard(skill, category) {
+            const isFavorited = favorites.includes(skill.name);
+            return `
+                <div class="card" data-skill="${skill.name}" data-category="${category}" data-searchable="${skill.name.toLowerCase()} ${skill.desc.toLowerCase()}">
+                    <div class="card-title">
+                        <span class="icon">${skill.icon}</span>
+                        <span style="flex: 1;">${skill.name}</span>
+                        <button class="favorite-btn ${isFavorited ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${skill.name}')">
+                            ${isFavorited ? '★' : '☆'}
+                        </button>
+                    </div>
+                    <div class="card-description">${skill.desc}</div>
+                    <div class="card-tags">
+                        <span class="tag primary">${category}</span>
+                        <span class="tag secondary">${skill.name.split('-')[0]}</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); openDetail('${skill.name}', '${category}')">
+                            📖 Details
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); copyToClipboard('${skill.name}')">
+                            📋 Copy
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openDetail(skillName, category) {
+            currentSkill = skillName;
+            const categories = Object.entries(skillsData);
+            let skill = null;
+            
+            for (const [cat, skills] of categories) {
+                const found = skills.find(s => s.name === skillName);
+                if (found) {
+                    skill = found;
+                    break;
+                }
+            }
+
+            if (!skill) return;
+
+            const isFavorited = favorites.includes(skillName);
+            document.getElementById('modalIcon').textContent = skill.icon;
+            document.getElementById('modalName').textContent = skill.name;
+            document.getElementById('modalDescription').textContent = skill.desc;
+            document.getElementById('modalCategory').textContent = category;
+            document.getElementById('modalFavoriteBtn').classList.toggle('active', isFavorited);
+            document.getElementById('modalFavoriteBtn').textContent = isFavorited ? '★' : '☆';
+            
+            const useCasesHtml = skill.useCases.map(uc => `<div>✓ ${uc}</div>`).join('');
+            document.getElementById('modalUseCases').innerHTML = useCasesHtml;
+
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+            currentSkill = null;
+        }
+
+        function toggleFavorite(skillName) {
+            const index = favorites.indexOf(skillName);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(skillName);
+            }
+            localStorage.setItem('dashboardFavorites', JSON.stringify(favorites));
+            updateFavoritesDisplay();
+            renderAllContent();
+            
+            if (currentSkill === skillName) {
+                const isFavorited = favorites.includes(skillName);
+                document.getElementById('modalFavoriteBtn').classList.toggle('active', isFavorited);
+                document.getElementById('modalFavoriteBtn').textContent = isFavorited ? '★' : '☆';
+            }
+        }
+
+        function updateFavoritesDisplay() {
+            const favSection = document.getElementById('favoritesSection');
+            const favoritesList = document.getElementById('favoritesList');
+            document.getElementById('favoriteCount').textContent = favorites.length;
+
+            if (favorites.length === 0) {
+                favSection.style.display = 'none';
+                favoritesList.innerHTML = '';
+            } else {
+                favSection.style.display = 'block';
+                favoritesList.innerHTML = favorites.map(fav => `
+                    <div class="favorite-chip">
+                        <span onclick="openDetail('${fav}', 'azure'); event.stopPropagation();" style="cursor: pointer; flex: 1;">⭐ ${fav}</span>
+                        <span class="remove" onclick="toggleFavorite('${fav}'); event.stopPropagation();">✕</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderAllContent() {
+            const allContainer = document.getElementById('all-content');
+            let html = '';
+            
+            for (const [category, skills] of Object.entries(skillsData)) {
+                html += `<div class="category-section">
+                    <div class="category-title">${category.charAt(0).toUpperCase() + category.slice(1)}</div>
+                    <div class="grid">`;
+                
+                skills.forEach(skill => {
+                    html += createSkillCard(skill, category);
+                });
+                
+                html += `</div></div>`;
+            }
+            
+            allContainer.innerHTML = html;
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Render content for specific tabs
+            if (tabName === 'all') {
+                if (!document.getElementById('all-content').innerHTML) {
+                    renderAllContent();
+                }
+            } else if (skillsData[tabName]) {
+                const container = document.getElementById(tabName + '-content');
+                let html = '<div class="grid">';
+                skillsData[tabName].forEach(skill => {
+                    html += createSkillCard(skill, tabName);
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            }
+            
+            updateStats();
+        }
+
+        function updateStats() {
+            let totalSkills = 0;
+            let totalCategories = Object.keys(skillsData).length;
+            
+            for (const skills of Object.values(skillsData)) {
+                totalSkills += skills.length;
+            }
+            
+            document.getElementById('skillCount').textContent = totalSkills;
+            document.getElementById('agentCount').textContent = skillsData.agents ? skillsData.agents.length : 0;
+            document.getElementById('categoryCount').textContent = totalCategories;
+        }
+
+        function searchSkills(query) {
+            const searchLower = query.toLowerCase();
+            const allCards = document.querySelectorAll('.card');
+            let visibleCount = 0;
+            
+            allCards.forEach(card => {
+                const searchableText = card.getAttribute('data-searchable');
+                if (searchableText.includes(searchLower)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            if (visibleCount === 0 && query) {
+                const activeTab = document.querySelector('.tab-content.active');
+                const existingNoResults = activeTab.querySelector('.no-results');
+                if (!existingNoResults) {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-results';
+                    noResults.innerHTML = '❌ No skills found matching your search';
+                    activeTab.appendChild(noResults);
+                }
+            } else {
+                const noResults = document.querySelector('.no-results');
+                if (noResults) noResults.remove();
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target.closest('.btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function openInNewTab(skillName) {
+            window.open(`https://github.com/search?q=${skillName}`, '_blank');
+        }
+
+        // Close modal on background click
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAllContent();
+            updateStats();
+            updateFavoritesDisplay();
+            
+            document.getElementById('searchBox').addEventListener('input', (e) => {
+                searchSkills(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>
